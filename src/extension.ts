@@ -1,26 +1,38 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import * as vscode from "vscode";
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+// TODO:
+// - conversion to em/rem
+// - add handler when range undefined
+
+const textEditor = vscode.window.activeTextEditor;
+
 export function activate(context: vscode.ExtensionContext) {
-	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "px-to-em" is now active!');
+  console.log('Congratulations, your extension "px-to-em" is now active!');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('px-to-em.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from px-to-em!');
-	});
+  // command list
+  const pxToEm = "px-to-em.pxToEm";
 
-	context.subscriptions.push(disposable);
+  const disposable = vscode.commands.registerCommand(pxToEm, () => {
+    // console.log(textEditor?.selection.start, textEditor?.selection.end);
+    // const range = new vscode.Range(
+    //   textEditor?.selection.start!,
+    //   textEditor?.selection.end!
+    // );
+    if (textEditor?.selection.start && textEditor.selection.end) {
+      const range = new vscode.Range(
+        textEditor.selection.start,
+        textEditor.selection.end
+      );
+
+      console.log(textEditor?.document.getText(range));
+      vscode.window.showInformationMessage("Hello World from px-to-em!");
+      return;
+    }
+
+    vscode.window.showErrorMessage("Error");
+  });
+
+  context.subscriptions.push(disposable);
 }
 
-// this method is called when your extension is deactivated
 export function deactivate() {}
