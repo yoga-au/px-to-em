@@ -17,7 +17,7 @@
     "commands": [
       {
         "command": "px-to-em.pxToEm",
-        "title": "PX to EM/REM"
+        "title": "PX to EM"
       }
     ]
   },
