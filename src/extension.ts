@@ -2,19 +2,7 @@ import * as vscode from "vscode";
 import { builtRange, isPx, convertToEm } from "./utils";
 
 // TODO:
-// - add handler when range undefined
-// - extract value from selection
-// - conversion to em/rem
-
-// RESEARCH:
-// checking if value ends with certain unit
-// const str1 = '24px';
-// console.log(str1.endsWith('px'));
-// ----
-// extract number from value
-// const str = "16px";
-// console.log(str.indexOf("px"));
-// console.log(str.slice(0, str.indexOf('px')));
+// - replace selection
 
 const textEditor = vscode.window.activeTextEditor;
 const infoMessage = vscode.window.showInformationMessage;
@@ -45,7 +33,14 @@ export function activate(context: vscode.ExtensionContext) {
         return errorMessage("The selection is not a pixel value");
       }
 
-      console.log(`${convertToEm(selectionValue)}em`);
+      const convertResult = `${convertToEm(selectionValue)}em`;
+      console.log(convertResult);
+
+      // replace selection with conversion result
+      textEditor.edit((editBuilder) => {
+        editBuilder.replace(range, convertResult);
+      });
+
       infoMessage("Sucess");
       return;
     }

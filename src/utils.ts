@@ -14,9 +14,9 @@ export const isPx = (value: string) => {
 export const convertToEm = (value: string) => {
   // extract value
   const indexOfPx = value.indexOf("px");
-  const numValue = parseInt(value.slice(0, indexOfPx));
+  const numValue = parseFloat(value.slice(0, indexOfPx));
 
   // conversion to em
   const convertResult = numValue / basePixel;
-  return convertResult;
+  return convertResult.toString();
 };
