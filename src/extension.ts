@@ -1,8 +1,7 @@
 import * as vscode from "vscode";
-import { builtRange, isPx, convertToEm } from "./utils";
+import { builtRange, checkUnit, convert } from "./utils";
 
 // TODO:
-// - error case handling
 // - em to px function
 // - add config for base pixel/root pixel
 
@@ -15,7 +14,9 @@ export function activate(context: vscode.ExtensionContext) {
 
   // command list
   const pxToEmCmd = "px-to-em.pxToEm";
+  const emToPxCmd = "px-to-em.emToPx";
 
+  // conversion from px to em
   const pxToEm = vscode.commands.registerCommand(pxToEmCmd, () => {
     if (!textEditor) {
       return errorMessage("No file is open");
@@ -35,11 +36,11 @@ export function activate(context: vscode.ExtensionContext) {
       }
 
       // check if its end with px
-      if (!isPx(selectionValue)) {
+      if (!checkUnit(selectionValue, "px")) {
         return errorMessage("The selection is not detected as pixel value");
       }
 
-      const convertResult = `${convertToEm(selectionValue)}em`;
+      const convertResult = `${convert(selectionValue, "px")}em`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -57,7 +58,70 @@ export function activate(context: vscode.ExtensionContext) {
     errorMessage("Error: Something went wrong");
   });
 
-  context.subscriptions.push(pxToEm);
+  // conversion em to px
+  const emToPx = vscode.commands.registerCommand(emToPxCmd, () => {
+    if (!textEditor) {
+      return errorMessage("No file is open");
+    }
+
+    if (textEditor.selection.start && textEditor.selection.end) {
+      const range = builtRange(
+        textEditor.selection.start,
+        textEditor.selection.end
+      );
+
+      const selectionValue = textEditor.document.getText(range);
+
+      // if no selection or selection are empty
+      if (selectionValue === "") {
+        return errorMessage("No selection is detected");
+      }
+
+      // check if its end with px
+      if (
+        !checkUnit(selectionValue, "em") &&
+        !checkUnit(selectionValue, "rem")
+      ) {
+        return errorMessage("The selection is not detected as em/rem value");
+      }
+
+      // run conversion for rem
+      if (checkUnit(selectionValue, "rem")) {
+        const convertResult = `${convert(selectionValue, "rem")}px`;
+        console.log(convertResult);
+
+        // replace selection with conversion result
+        textEditor
+          .edit((editBuilder) => {
+            editBuilder.replace(range, convertResult);
+          })
+          .then(() => {
+            infoMessage("Sucessfully convert the value from EM/REM to PX");
+          });
+
+        return;
+      }
+
+      // run conversion for em
+      const convertResult = `${convert(selectionValue, "em")}px`;
+      console.log(convertResult);
+
+      // replace selection with conversion result
+      textEditor
+        .edit((editBuilder) => {
+          editBuilder.replace(range, convertResult);
+        })
+        .then(() => {
+          infoMessage("Sucessfully convert the value from EM/REM to PX");
+        });
+
+      return;
+    }
+
+    errorMessage("Error: Something went wrong");
+  });
+
+  context.subscriptions.push(pxToEm, emToPx);
 }
 
 export function deactivate() {}

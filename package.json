@@ -10,7 +10,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:px-to-em.pxToEm"
+    "onCommand:px-to-em.pxToEm",
+    "onCommand:px-to-em.emToPx"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -18,6 +19,10 @@
       {
         "command": "px-to-em.pxToEm",
         "title": "PX to EM"
+      },
+      {
+        "command": "px-to-em.emToPx",
+        "title": "EM to PX"
       }
     ]
   },
