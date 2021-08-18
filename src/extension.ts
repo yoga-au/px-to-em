@@ -2,15 +2,18 @@ import * as vscode from "vscode";
 import { builtRange, checkUnit, convert } from "./utils";
 
 // TODO:
-// - em to px function
 // - add config for base pixel/root pixel
 
 const textEditor = vscode.window.activeTextEditor;
 const infoMessage = vscode.window.showInformationMessage;
 const errorMessage = vscode.window.showErrorMessage;
 
+// getConfiguration API section paramater take properties name
+const config = vscode.workspace.getConfiguration("pixelToEM");
+const basePixel: any = config.get("basePixel");
+
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "px-to-em" is now active!');
+  // console.log('Congratulations, your extension "px-to-em" is now active!');
 
   // command list
   const pxToEmCmd = "px-to-em.pxToEm";
@@ -40,7 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
         return errorMessage("The selection is not detected as pixel value");
       }
 
-      const convertResult = `${convert(selectionValue, "px")}em`;
+      const convertResult = `${convert(selectionValue, "px", basePixel)}em`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -49,7 +52,9 @@ export function activate(context: vscode.ExtensionContext) {
           editBuilder.replace(range, convertResult);
         })
         .then(() => {
-          infoMessage("Sucessfully convert the value from PX to EM");
+          infoMessage(
+            `Sucessfully convert the value from PX to EM with base pixel of ${basePixel}`
+          );
         });
 
       return;
@@ -87,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       // run conversion for rem
       if (checkUnit(selectionValue, "rem")) {
-        const convertResult = `${convert(selectionValue, "rem")}px`;
+        const convertResult = `${convert(selectionValue, "rem", basePixel)}px`;
         console.log(convertResult);
 
         // replace selection with conversion result
@@ -96,14 +101,16 @@ export function activate(context: vscode.ExtensionContext) {
             editBuilder.replace(range, convertResult);
           })
           .then(() => {
-            infoMessage("Sucessfully convert the value from EM/REM to PX");
+            infoMessage(
+              `Sucessfully convert the value from REM to PX with base pixel of ${basePixel}`
+            );
           });
 
         return;
       }
 
       // run conversion for em
-      const convertResult = `${convert(selectionValue, "em")}px`;
+      const convertResult = `${convert(selectionValue, "em", basePixel)}px`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -112,7 +119,9 @@ export function activate(context: vscode.ExtensionContext) {
           editBuilder.replace(range, convertResult);
         })
         .then(() => {
-          infoMessage("Sucessfully convert the value from EM/REM to PX");
+          infoMessage(
+            `Sucessfully convert the value from EM to PX with base pixel of ${basePixel}`
+          );
         });
 
       return;

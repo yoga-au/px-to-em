@@ -1,8 +1,5 @@
 import * as vscode from "vscode";
 
-// CHANGE THIS to vscode configuration contirbution point
-const basePixel = 16;
-
 type UnitType = "px" | "em" | "rem";
 
 export const builtRange = (start: vscode.Position, end: vscode.Position) => {
@@ -13,7 +10,7 @@ export const checkUnit = (value: string, unit: UnitType) => {
   return value.endsWith(unit);
 };
 
-export const convert = (value: string, unit: UnitType) => {
+export const convert = (value: string, unit: UnitType, basePixel: number) => {
   if (unit === "px") {
     // extract value
     const indexOfPx = value.indexOf("px");

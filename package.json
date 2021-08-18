@@ -1,6 +1,6 @@
 {
   "name": "px-to-em",
-  "displayName": "px-to-em",
+  "displayName": "Pixel to EM",
   "description": "",
   "version": "0.0.1",
   "engines": {
@@ -24,7 +24,17 @@
         "command": "px-to-em.emToPx",
         "title": "EM to PX"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Pixel to EM",
+      "properties": {
+        "pixelToEM.basePixel": {
+          "type": "number",
+          "default": 16,
+          "description": "Base pixel/root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root pixel."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run compile",
