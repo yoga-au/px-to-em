@@ -2,7 +2,9 @@ import * as vscode from "vscode";
 import { builtRange, isPx, convertToEm } from "./utils";
 
 // TODO:
-// - replace selection
+// - error case handling
+// - em to px function
+// - add config for base pixel/root pixel
 
 const textEditor = vscode.window.activeTextEditor;
 const infoMessage = vscode.window.showInformationMessage;
@@ -15,6 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
   const pxToEmCmd = "px-to-em.pxToEm";
 
   const pxToEm = vscode.commands.registerCommand(pxToEmCmd, () => {
+    if (!textEditor) {
+      return errorMessage("No file is open");
+    }
+
     if (textEditor?.selection.start && textEditor.selection.end) {
       const range = builtRange(
         textEditor.selection.start,
@@ -25,27 +31,30 @@ export function activate(context: vscode.ExtensionContext) {
 
       // if no selection or selection are empty
       if (selectionValue === "") {
-        return errorMessage("Empty String");
+        return errorMessage("No selection is detected");
       }
 
       // check if its end with px
       if (!isPx(selectionValue)) {
-        return errorMessage("The selection is not a pixel value");
+        return errorMessage("The selection is not detected as pixel value");
       }
 
       const convertResult = `${convertToEm(selectionValue)}em`;
       console.log(convertResult);
 
       // replace selection with conversion result
-      textEditor.edit((editBuilder) => {
-        editBuilder.replace(range, convertResult);
-      });
+      textEditor
+        .edit((editBuilder) => {
+          editBuilder.replace(range, convertResult);
+        })
+        .then(() => {
+          infoMessage("Sucessfully convert the value from PX to EM");
+        });
 
-      infoMessage("Sucess");
       return;
     }
 
-    errorMessage("Error");
+    errorMessage("Error: Something went wrong");
   });
 
   context.subscriptions.push(pxToEm);
