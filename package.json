@@ -8,7 +8,7 @@
   "description": "Quickly convert your css px value to em value or vice versa with a simple command.",
   "version": "0.1.0",
   "engines": {
-    "vscode": "^1.22.0"
+    "vscode": "^1.59.0"
   },
   "categories": [
     "Other"
