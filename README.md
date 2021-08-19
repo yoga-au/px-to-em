@@ -8,7 +8,7 @@ You can convert a value by simply do selection to your value want to convert and
 
 The conversion is using a base pixel of `16`. You can change it in the settings by searching `PX to EM` in settings menu.
 
-![PX to EM Preview](assets/px-to-em-preview.gif)
+![PX to EM Preview](https://i.imgur.com/7vw7s4K.gif)
 
 ## Extension Settings
 
