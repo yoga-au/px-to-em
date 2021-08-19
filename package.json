@@ -1,14 +1,34 @@
 {
   "name": "px-to-em",
-  "displayName": "Pixel to EM",
-  "description": "",
-  "version": "0.0.1",
+  "publisher": "yoga-au",
+  "author": {
+    "name": "Yoga Agung Utama"
+  },
+  "displayName": "PX to EM",
+  "description": "Quickly convert your css px value to em value or vice versa with a simple command.",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.22.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "css",
+    "px",
+    "em",
+    "styling",
+    "converter"
+  ],
+  "icon": "assets/icon.png",
+  "galleryBanner": {
+    "color": "#222222",
+    "theme": "light"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yoga-au/px-to-em.git"
+  },
   "activationEvents": [
     "onCommand:px-to-em.pxToEm",
     "onCommand:px-to-em.emToPx"
@@ -18,20 +38,22 @@
     "commands": [
       {
         "command": "px-to-em.pxToEm",
-        "title": "PX to EM"
+        "title": "Convert PX to EM Value",
+        "shortTitle": "PX to EM"
       },
       {
         "command": "px-to-em.emToPx",
-        "title": "EM to PX"
+        "title": "Convert EM/REM to PX Value",
+        "shortTitle": "EM/REM to PX"
       }
     ],
     "configuration": {
-      "title": "Pixel to EM",
+      "title": "PX to EM",
       "properties": {
-        "pixelToEM.basePixel": {
+        "pxToEm.basePixel": {
           "type": "number",
           "default": 16,
-          "description": "Base pixel/root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root pixel."
+          "description": "Base PX/root PX to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root px."
         }
       }
     }

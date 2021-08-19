@@ -2,14 +2,15 @@ import * as vscode from "vscode";
 import { builtRange, checkUnit, convert } from "./utils";
 
 // TODO:
-// - add config for base pixel/root pixel
+// - refactor callback function in registerCommand()
+// - handle multiple selection
 
 const textEditor = vscode.window.activeTextEditor;
 const infoMessage = vscode.window.showInformationMessage;
 const errorMessage = vscode.window.showErrorMessage;
 
-// getConfiguration API section paramater take properties name
-const config = vscode.workspace.getConfiguration("pixelToEM");
+// get configuration value from pixelToEm.basePixel
+const config = vscode.workspace.getConfiguration("pxToEm");
 const basePixel: any = config.get("basePixel");
 
 export function activate(context: vscode.ExtensionContext) {
@@ -21,10 +22,12 @@ export function activate(context: vscode.ExtensionContext) {
 
   // conversion from px to em
   const pxToEm = vscode.commands.registerCommand(pxToEmCmd, () => {
+    // check if there's no open file
     if (!textEditor) {
       return errorMessage("No file is open");
     }
 
+    // check if selection actually exist
     if (textEditor?.selection.start && textEditor.selection.end) {
       const range = builtRange(
         textEditor.selection.start,
@@ -35,7 +38,9 @@ export function activate(context: vscode.ExtensionContext) {
 
       // if no selection or selection are empty
       if (selectionValue === "") {
-        return errorMessage("No selection is detected");
+        return errorMessage(
+          "No selection is detected, if this error is false positive try to reload your vscode"
+        );
       }
 
       // check if its end with px
@@ -82,7 +87,7 @@ export function activate(context: vscode.ExtensionContext) {
         return errorMessage("No selection is detected");
       }
 
-      // check if its end with px
+      // check if its end with em/rem
       if (
         !checkUnit(selectionValue, "em") &&
         !checkUnit(selectionValue, "rem")

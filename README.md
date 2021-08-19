@@ -1,70 +1,28 @@
-# px-to-em README
+# PX to EM
 
-This is the README for your extension "px-to-em". After writing up a brief description, we recommend including the following sections.
+Quickly convert your css px value to em value or vice versa with a simple command.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+You can convert a value by simply do selection to your value want to convert and run the command by typing `Convert to EM` (or `Convert to PX`) in command pallete (`Ctrl+Shift+P` or `Cmd+Shift+P`).
 
-For example if there is an image subfolder under your extension project workspace:
+The conversion is using a base pixel of `16`. You can change it in the settings by searching `PX to EM` in settings menu.
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+[Preview](assets/px-to-em-preview.gif\)
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+- `pixelToEm.basePixel`: Base pixel/root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root pixel.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- When selecting a value in shorthand property, it will replace all the value with converted result from the left
+- When converting a multiple selection, only first selection is converted.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
+### 0.1.0
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of PX to EM.
