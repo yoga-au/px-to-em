@@ -6,7 +6,7 @@
   },
   "displayName": "PX to EM",
   "description": "Quickly convert your css px value to em value or vice versa with a simple command.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "engines": {
     "vscode": "^1.59.0"
   },
