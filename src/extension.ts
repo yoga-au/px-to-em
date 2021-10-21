@@ -5,23 +5,21 @@ import { builtRange, checkUnit, convert } from "./utils";
 // - refactor callback function in registerCommand()
 // - handle multiple selection
 
-const textEditor = vscode.window.activeTextEditor;
-const infoMessage = vscode.window.showInformationMessage;
-const errorMessage = vscode.window.showErrorMessage;
-
-// get configuration value from pixelToEm.basePixel
-const config = vscode.workspace.getConfiguration("pxToEm");
-const basePixel: any = config.get("basePixel");
-
 export function activate(context: vscode.ExtensionContext) {
-  // console.log('Congratulations, your extension "px-to-em" is now active!');
-
   // command list
   const pxToEmCmd = "px-to-em.pxToEm";
   const emToPxCmd = "px-to-em.emToPx";
 
   // conversion from px to em
   const pxToEm = vscode.commands.registerCommand(pxToEmCmd, () => {
+    const textEditor = vscode.window.activeTextEditor;
+    const infoMessage = vscode.window.showInformationMessage;
+    const errorMessage = vscode.window.showErrorMessage;
+
+    // get configuration value from pixelToEm.basePixel
+    const config = vscode.workspace.getConfiguration("pxToEm");
+    const basePixel: any = config.get("basePixel");
+
     // check if there's no open file
     if (!textEditor) {
       return errorMessage("No file is open");
@@ -70,6 +68,14 @@ export function activate(context: vscode.ExtensionContext) {
 
   // conversion em to px
   const emToPx = vscode.commands.registerCommand(emToPxCmd, () => {
+    const textEditor = vscode.window.activeTextEditor;
+    const infoMessage = vscode.window.showInformationMessage;
+    const errorMessage = vscode.window.showErrorMessage;
+
+    // get configuration value from pixelToEm.basePixel
+    const config = vscode.workspace.getConfiguration("pxToEm");
+    const basePixel: any = config.get("basePixel");
+
     if (!textEditor) {
       return errorMessage("No file is open");
     }
