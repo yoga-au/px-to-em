@@ -30,3 +30,7 @@ Initial release of PX to EM.
 ### 0.1.1
 
 - Fix: editor detection when switching tab
+
+### 0.1.2
+
+- Fix: galleryBanner text color
