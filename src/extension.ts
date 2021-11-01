@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { builtRange, checkUnit, convert } from "./utils";
+import { buildRange, convert, checkUnit } from "./utils/index";
 
 // TODO:
 // - refactor callback function in registerCommand()
@@ -26,8 +26,8 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // check if selection actually exist
-    if (textEditor?.selection.start && textEditor.selection.end) {
-      const range = builtRange(
+    if (textEditor && textEditor.selection.start && textEditor.selection.end) {
+      const range = buildRange(
         textEditor.selection.start,
         textEditor.selection.end
       );
@@ -81,7 +81,7 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     if (textEditor.selection.start && textEditor.selection.end) {
-      const range = builtRange(
+      const range = buildRange(
         textEditor.selection.start,
         textEditor.selection.end
       );

@@ -1,16 +1,7 @@
-import * as vscode from "vscode";
+// import * as vscode from "vscode";
+import { UnitType } from "../types/index";
 
-type UnitType = "px" | "em" | "rem";
-
-export const builtRange = (start: vscode.Position, end: vscode.Position) => {
-  return new vscode.Range(start, end);
-};
-
-export const checkUnit = (value: string, unit: UnitType) => {
-  return value.endsWith(unit);
-};
-
-export const convert = (value: string, unit: UnitType, basePixel: number) => {
+const convert = (value: string, unit: UnitType, basePixel: number) => {
   if (unit === "px") {
     // extract value
     const indexOfPx = value.indexOf("px");
@@ -41,3 +32,5 @@ export const convert = (value: string, unit: UnitType, basePixel: number) => {
     return convertResult.toString();
   }
 };
+
+export default convert;
