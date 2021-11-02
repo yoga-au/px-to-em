@@ -8,7 +8,11 @@ const emToPxFunc = (...args: any[]): any => {
 
   // get configuration value from pixelToEm.basePixel
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const basePixel = config.get<number>("basePixel");
+  const basePixel = config.get<number>("basePixel", 16);
+  const disableSuccessNotification = config.get<boolean>(
+    "disableSuccessNotification",
+    true
+  );
 
   if (!textEditor) {
     return errorMessage("No file is open");
@@ -43,9 +47,11 @@ const emToPxFunc = (...args: any[]): any => {
           editBuilder.replace(range, convertResult);
         })
         .then(() => {
-          infoMessage(
-            `Sucessfully convert the value from REM to PX with base pixel of ${basePixel}`
-          );
+          if (!disableSuccessNotification) {
+            infoMessage(
+              `Sucessfully convert the value from REM to PX with base pixel of ${basePixel}`
+            );
+          }
         });
 
       return;
@@ -62,9 +68,11 @@ const emToPxFunc = (...args: any[]): any => {
           editBuilder.replace(range, convertResult);
         })
         .then(() => {
-          infoMessage(
-            `Sucessfully convert the value from EM to PX with base pixel of ${basePixel}`
-          );
+          if (!disableSuccessNotification) {
+            infoMessage(
+              `Sucessfully convert the value from EM to PX with base pixel of ${basePixel}`
+            );
+          }
         });
 
       return;
