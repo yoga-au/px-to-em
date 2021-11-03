@@ -6,8 +6,8 @@
     "name": "Yoga Agung Utama"
   },
   "displayName": "PX to EM",
-  "description": "Quickly convert your css pixel value to em value or vice versa with a simple command.",
-  "version": "0.1.2",
+  "description": "Quickly convert your css pixel value to em value or em/rem to pixel with a simple command.",
+  "version": "0.1.3",
   "engines": {
     "vscode": "^1.59.0"
   },
@@ -61,7 +61,12 @@
         "pxToEm.basePixel": {
           "type": "number",
           "default": 16,
-          "description": "Base PX/root PX to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root px."
+          "description": "Base pixel/root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root px."
+        },
+        "pxToEm.disableSuccessNotification": {
+          "type": "boolean",
+          "default": false,
+          "description": "Disable notification when conversion are successfull"
         }
       }
     }

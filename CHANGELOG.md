@@ -10,4 +10,14 @@
 
 ## [0.1.1]
 
-- Fix: editor detection when switching tab
+- Fix editor detection when switching tab
+
+## [0.1.2]
+
+- Fix galleryBanner text color
+
+## [0.1.3]
+
+- Add new configuration for disable notification message when conversion are successfull
+- Update extension README file (added new extenstion setting and roadmap)
+- Source code refactor (moved some function to separate file)
