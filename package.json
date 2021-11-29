@@ -48,17 +48,20 @@
       {
         "command": "px-to-em.pxToEm",
         "title": "Convert PX to EM Value",
-        "shortTitle": "PX to EM"
+        "shortTitle": "PX to EM",
+        "category": "PX to EM"
       },
       {
         "command": "px-to-em.emToPx",
         "title": "Convert EM/REM to PX Value",
-        "shortTitle": "EM/REM to PX"
+        "shortTitle": "EM/REM to PX",
+        "category": "PX to EM"
       },
       {
         "command": "px-to-em.pxToEmMulti",
         "title": "Multi Selection Support testing (PX to EM)",
-        "shortTitle": "Testing (PX to EM Multi)"
+        "shortTitle": "Testing (PX to EM Multi)",
+        "category": "PX to EM"
       }
     ],
     "configuration": {
