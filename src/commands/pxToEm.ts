@@ -8,7 +8,7 @@ const pxToEm = (...args: any[]): any => {
 
   // get configuration value from pixelToEm.basePixel
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const basePixel = config.get<number>("basePixel", 16);
+  const rootPixel = config.get<number>("rootPixel", 16);
   const disableSuccessNotification = config.get<boolean>(
     "disableSuccessNotification",
     true
@@ -40,8 +40,8 @@ const pxToEm = (...args: any[]): any => {
       return errorMessage("The selection is not detected as pixel value");
     }
 
-    if (basePixel) {
-      const convertResult = `${convert(selectionValue, "px", basePixel)}em`;
+    if (rootPixel) {
+      const convertResult = `${convert(selectionValue, "px", rootPixel)}em`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -52,7 +52,7 @@ const pxToEm = (...args: any[]): any => {
         .then(() => {
           if (!disableSuccessNotification) {
             infoMessage(
-              `Sucessfully convert the value from PX to EM with base pixel of ${basePixel}`
+              `Successfuly perform conversion with root pixel of ${rootPixel}`
             );
           }
         });

@@ -8,7 +8,7 @@ const emToPx = (...args: any[]): any => {
 
   // get configuration value from pixelToEm.basePixel
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const basePixel = config.get<number>("basePixel", 16);
+  const rootPixel = config.get<number>("rootPixel", 16);
   const disableSuccessNotification = config.get<boolean>(
     "disableSuccessNotification",
     true
@@ -37,8 +37,8 @@ const emToPx = (...args: any[]): any => {
     }
 
     // run conversion for rem
-    if (checkUnit(selectionValue, "rem") && basePixel) {
-      const convertResult = `${convert(selectionValue, "rem", basePixel)}px`;
+    if (checkUnit(selectionValue, "rem") && rootPixel) {
+      const convertResult = `${convert(selectionValue, "rem", rootPixel)}px`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -49,7 +49,7 @@ const emToPx = (...args: any[]): any => {
         .then(() => {
           if (!disableSuccessNotification) {
             infoMessage(
-              `Sucessfully convert the value from REM to PX with base pixel of ${basePixel}`
+              `Successfuly perform conversion with root pixel of ${rootPixel}`
             );
           }
         });
@@ -57,9 +57,9 @@ const emToPx = (...args: any[]): any => {
       return;
     }
 
-    if (basePixel) {
+    if (rootPixel) {
       // run conversion for em
-      const convertResult = `${convert(selectionValue, "em", basePixel)}px`;
+      const convertResult = `${convert(selectionValue, "em", rootPixel)}px`;
       console.log(convertResult);
 
       // replace selection with conversion result
@@ -70,7 +70,7 @@ const emToPx = (...args: any[]): any => {
         .then(() => {
           if (!disableSuccessNotification) {
             infoMessage(
-              `Sucessfully convert the value from EM to PX with base pixel of ${basePixel}`
+              `Successfuly perform conversion with root pixel of ${rootPixel}`
             );
           }
         });

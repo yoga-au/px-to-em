@@ -20,12 +20,17 @@ const pxToEmMulti = (...args: any[]): any => {
   let problemCount = 0;
 
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const basePixel = config.get<number>("basePixel", 16);
+  const rootPixel = config.get<number>("rootPixel", 16);
 
   if (!textEditor) {
     return errorMessage("No file is open");
   }
 
+  if (textEditor.selections.length === 1 && textEditor.selections[0].isEmpty) {
+    return errorMessage("No selection is detected");
+  }
+
+  // SECTION: Start of multi selection feature code
   const convertResult = textEditor.selections.flatMap((item) => {
     const range = new vscode.Range(item.start, item.end);
     const value = textEditor.document.getText(range);
@@ -35,7 +40,7 @@ const pxToEmMulti = (...args: any[]): any => {
       return [];
     }
 
-    const converted = `${convert(value, "px", basePixel)}em`;
+    const converted = `${convert(value, "px", rootPixel)}em`;
 
     return [{ range, value, converted }];
   });
@@ -49,11 +54,13 @@ const pxToEmMulti = (...args: any[]): any => {
 
   if (problemCount) {
     return warningMessage(
-      `Sucessfully convert the values from EM to PX with ${problemCount} problems`
+      `Successfuly perform conversion with root pixel of ${rootPixel}, but there are ${problemCount} problems encountered.`
     );
   }
 
-  return infoMessage("PX to EM Multiple Selections");
+  return infoMessage(
+    `Successfuly perform conversion with root pixel of ${rootPixel}`
+  );
 };
 
 export default pxToEmMulti;
