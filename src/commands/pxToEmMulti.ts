@@ -12,7 +12,7 @@ import { convert } from "../utils/index";
 
 // NOTE: buildRange utility function can be refactored to use map method internally
 
-const pxToEmMultiFunc = (...args: any[]): any => {
+const pxToEmMulti = (...args: any[]): any => {
   const textEditor = vscode.window.activeTextEditor;
   const infoMessage = vscode.window.showInformationMessage;
   const warningMessage = vscode.window.showWarningMessage;
@@ -56,4 +56,4 @@ const pxToEmMultiFunc = (...args: any[]): any => {
   return infoMessage("PX to EM Multiple Selections");
 };
 
-export default pxToEmMultiFunc;
+export default pxToEmMulti;
