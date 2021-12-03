@@ -1,12 +1,16 @@
 import * as vscode from "vscode";
-import { buildRange, convert, checkUnit } from "../utils/index";
+import { convert } from "../utils/index";
+
+// TODO: Working on refactoring em to px (follow px to em)
+// NOTE: buildRange utility function can be refactored to use map method internally
 
 const pxToEm = (...args: any[]): any => {
   const textEditor = vscode.window.activeTextEditor;
   const infoMessage = vscode.window.showInformationMessage;
+  const warningMessage = vscode.window.showWarningMessage;
   const errorMessage = vscode.window.showErrorMessage;
+  let problemCount = 0;
 
-  // get configuration value from pixelToEm.basePixel
   const config = vscode.workspace.getConfiguration("pxToEm");
   const rootPixel = config.get<number>("rootPixel", 16);
   const disableSuccessNotification = config.get<boolean>(
@@ -14,44 +18,39 @@ const pxToEm = (...args: any[]): any => {
     true
   );
 
-  // check if there's no open file
   if (!textEditor) {
     return errorMessage("No file is open");
   }
 
-  // check if selection actually exist
-  if (textEditor && textEditor.selection.start && textEditor.selection.end) {
-    const range = buildRange(
-      textEditor.selection.start,
-      textEditor.selection.end
-    );
+  if (textEditor.selections.length === 1) {
+    if (textEditor.selection.isEmpty) {
+      return errorMessage("No selection is detected");
+    }
 
-    const selectionValue = textEditor.document.getText(range);
-
-    // if no selection or selection are empty
-    if (selectionValue === "") {
-      return errorMessage(
-        "No selection is detected, if this error is false positive try to reload your vscode"
+    // SECTION: Start of single selection feature code
+    if (textEditor.selection.isSingleLine) {
+      const range = new vscode.Range(
+        textEditor.selection.start,
+        textEditor.selection.end
       );
-    }
+      const value = textEditor.document.getText(range);
 
-    // check if its end with px
-    if (!checkUnit(selectionValue, "px")) {
-      return errorMessage("The selection is not detected as pixel value");
-    }
+      if (!value.endsWith("px")) {
+        return errorMessage("The selection is not detected as pixel value");
+      }
 
-    if (rootPixel) {
-      const convertResult = `${convert(selectionValue, "px", rootPixel)}em`;
-      console.log(convertResult);
-
-      // replace selection with conversion result
+      const convertResult = `${convert(value, "px", rootPixel)}em`;
       textEditor
         .edit((editBuilder) => {
           editBuilder.replace(range, convertResult);
         })
-        .then(() => {
+        .then((resolved) => {
+          if (resolved === false) {
+            return errorMessage("Error: something went wrong");
+          }
+
           if (!disableSuccessNotification) {
-            infoMessage(
+            return infoMessage(
               `Successfuly perform conversion with root pixel of ${rootPixel}`
             );
           }
@@ -61,7 +60,45 @@ const pxToEm = (...args: any[]): any => {
     }
   }
 
-  errorMessage("Error: Something went wrong");
+  // SECTION: Start of multi selection feature code
+  const convertResult = textEditor.selections.flatMap((item) => {
+    const range = new vscode.Range(item.start, item.end);
+    const value = textEditor.document.getText(range);
+
+    if (!value.endsWith("px") || !value) {
+      problemCount += 1;
+      return [];
+    }
+
+    const converted = `${convert(value, "px", rootPixel)}em`;
+
+    return [{ range, value, converted }];
+  });
+
+  // REMINDER: put loop inside textEditor edit method to perform multiple replace method
+  textEditor
+    .edit((editBuilder) => {
+      for (const item of convertResult) {
+        editBuilder.replace(item.range, item.converted);
+      }
+    })
+    .then((resolved) => {
+      if (resolved === false) {
+        return errorMessage("Error: something went wrong");
+      }
+
+      if (problemCount) {
+        return warningMessage(
+          `Successfuly perform conversion with root pixel of ${rootPixel}, but there are ${problemCount} problems encountered.`
+        );
+      }
+
+      if (!disableSuccessNotification) {
+        return infoMessage(
+          `Successfuly perform conversion with root pixel of ${rootPixel}`
+        );
+      }
+    });
 };
 
 export default pxToEm;

@@ -39,8 +39,7 @@
   "license": "SEE LICENSE IN LICENSE.md",
   "activationEvents": [
     "onCommand:px-to-em.pxToEm",
-    "onCommand:px-to-em.emToPx",
-    "onCommand:px-to-em.pxToEmMulti"
+    "onCommand:px-to-em.emToPx"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -55,12 +54,6 @@
         "command": "px-to-em.emToPx",
         "title": "Convert EM/REM to PX Value",
         "shortTitle": "EM/REM to PX",
-        "category": "PX to EM"
-      },
-      {
-        "command": "px-to-em.pxToEmMulti",
-        "title": "Multi Selection Support testing (PX to EM)",
-        "shortTitle": "Testing (PX to EM Multi)",
         "category": "PX to EM"
       }
     ],

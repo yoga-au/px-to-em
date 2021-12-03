@@ -1,5 +1,5 @@
-import pxToEm from "./pxToEm";
+// import pxToEm from "./pxToEm";
 import emToPx from "./emToPx";
-import pxToEmMulti from "./pxToEmMulti";
+import pxToEm from "./pxToEm";
 
-export { pxToEm, emToPx, pxToEmMulti };
+export { emToPx, pxToEm };
