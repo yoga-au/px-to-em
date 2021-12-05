@@ -12,7 +12,7 @@ const pxToEm = (...args: any[]): any => {
   let problemCount = 0;
 
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const rootPixel = config.get<number>("rootPixel", 16);
+  const rootPixel = config.get<number>("rootFontSize", 16);
   const disableSuccessNotification = config.get<boolean>(
     "disableSuccessNotification",
     true

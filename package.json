@@ -60,10 +60,10 @@
     "configuration": {
       "title": "PX to EM",
       "properties": {
-        "pxToEm.rootPixel": {
+        "pxToEm.rootFontSize": {
           "type": "number",
           "default": 16,
-          "description": "Root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the root px in your css."
+          "description": "Root font size to be used as reference for conversion. Most browser have it at 16px as default value if you don't specifically setup the root font size in your css."
         },
         "pxToEm.disableSuccessNotification": {
           "type": "boolean",
