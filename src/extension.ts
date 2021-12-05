@@ -4,6 +4,7 @@ import { pxToEm, emToPx } from "./commands/index";
 // TODO:
 // - refactor callback function in registerCommand()
 // - handle multiple selection
+// - change root pixel -> root font-size
 
 export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(

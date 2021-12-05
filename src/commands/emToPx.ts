@@ -1,12 +1,16 @@
 import * as vscode from "vscode";
-import { buildRange, convert, checkUnit } from "../utils/index";
+import { convert } from "../utils/index";
 
-const emToPx = (...args: any[]): any => {
+// TODO: Working on refactoring em to px (follow px to em)
+// NOTE: buildRange utility function can be refactored to use map method internally
+
+const pxToEm = (...args: any[]): any => {
   const textEditor = vscode.window.activeTextEditor;
   const infoMessage = vscode.window.showInformationMessage;
+  const warningMessage = vscode.window.showWarningMessage;
   const errorMessage = vscode.window.showErrorMessage;
+  let problemCount = 0;
 
-  // get configuration value from pixelToEm.basePixel
   const config = vscode.workspace.getConfiguration("pxToEm");
   const rootPixel = config.get<number>("rootPixel", 16);
   const disableSuccessNotification = config.get<boolean>(
@@ -18,58 +22,38 @@ const emToPx = (...args: any[]): any => {
     return errorMessage("No file is open");
   }
 
-  if (textEditor.selection.start && textEditor.selection.end) {
-    const range = buildRange(
-      textEditor.selection.start,
-      textEditor.selection.end
-    );
-
-    const selectionValue = textEditor.document.getText(range);
-
-    // if no selection or selection are empty
-    if (selectionValue === "") {
+  if (textEditor.selections.length === 1) {
+    if (textEditor.selection.isEmpty) {
       return errorMessage("No selection is detected");
     }
 
-    // check if its end with em/rem
-    if (!checkUnit(selectionValue, "em") && !checkUnit(selectionValue, "rem")) {
-      return errorMessage("The selection is not detected as em/rem value");
-    }
+    // SECTION: Start of single selection feature code
+    if (textEditor.selection.isSingleLine) {
+      const range = new vscode.Range(
+        textEditor.selection.start,
+        textEditor.selection.end
+      );
+      const value = textEditor.document.getText(range);
 
-    // run conversion for rem
-    if (checkUnit(selectionValue, "rem") && rootPixel) {
-      const convertResult = `${convert(selectionValue, "rem", rootPixel)}px`;
-      console.log(convertResult);
+      if (!value.endsWith("em") && !value.endsWith("rem")) {
+        return errorMessage("The selection is not detected as em/rem value");
+      }
 
-      // replace selection with conversion result
+      const convertResult = value.endsWith("em")
+        ? `${convert(value, "em", rootPixel)}px`
+        : `${convert(value, "rem", rootPixel)}px`;
+
       textEditor
         .edit((editBuilder) => {
           editBuilder.replace(range, convertResult);
         })
-        .then(() => {
-          if (!disableSuccessNotification) {
-            infoMessage(
-              `Successfuly perform conversion with root pixel of ${rootPixel}`
-            );
+        .then((resolved) => {
+          if (resolved === false) {
+            return errorMessage("Error: something went wrong");
           }
-        });
 
-      return;
-    }
-
-    if (rootPixel) {
-      // run conversion for em
-      const convertResult = `${convert(selectionValue, "em", rootPixel)}px`;
-      console.log(convertResult);
-
-      // replace selection with conversion result
-      textEditor
-        .edit((editBuilder) => {
-          editBuilder.replace(range, convertResult);
-        })
-        .then(() => {
           if (!disableSuccessNotification) {
-            infoMessage(
+            return infoMessage(
               `Successfuly perform conversion with root pixel of ${rootPixel}`
             );
           }
@@ -79,7 +63,47 @@ const emToPx = (...args: any[]): any => {
     }
   }
 
-  errorMessage("Error: Something went wrong");
+  // SECTION: Start of multi selection feature code
+  const convertResult = textEditor.selections.flatMap((item) => {
+    const range = new vscode.Range(item.start, item.end);
+    const value = textEditor.document.getText(range);
+
+    if ((!value.endsWith("em") && !value.endsWith("rem")) || !value) {
+      problemCount += 1;
+      return [];
+    }
+
+    const converted = value.endsWith("em")
+      ? `${convert(value, "em", rootPixel)}px`
+      : `${convert(value, "rem", rootPixel)}px`;
+
+    return [{ range, value, converted }];
+  });
+
+  // REMINDER: put loop inside textEditor edit method to perform multiple replace method
+  textEditor
+    .edit((editBuilder) => {
+      for (const item of convertResult) {
+        editBuilder.replace(item.range, item.converted);
+      }
+    })
+    .then((resolved) => {
+      if (resolved === false) {
+        return errorMessage("Error: something went wrong");
+      }
+
+      if (problemCount) {
+        return warningMessage(
+          `Successfuly perform conversion with root pixel of ${rootPixel}, but there are ${problemCount} problems encountered.`
+        );
+      }
+
+      if (!disableSuccessNotification) {
+        return infoMessage(
+          `Successfuly perform conversion with root pixel of ${rootPixel}`
+        );
+      }
+    });
 };
 
-export default emToPx;
+export default pxToEm;
