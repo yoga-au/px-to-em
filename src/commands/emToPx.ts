@@ -12,7 +12,7 @@ const pxToEm = (...args: any[]): any => {
   let problemCount = 0;
 
   const config = vscode.workspace.getConfiguration("pxToEm");
-  const rootPixel = config.get<number>("rootFontSize", 16);
+  const rootFontSize = config.get<number>("rootFontSize", 16);
   const disableSuccessNotification = config.get<boolean>(
     "disableSuccessNotification",
     true
@@ -40,8 +40,8 @@ const pxToEm = (...args: any[]): any => {
       }
 
       const convertResult = value.endsWith("em")
-        ? `${convert(value, "em", rootPixel)}px`
-        : `${convert(value, "rem", rootPixel)}px`;
+        ? `${convert(value, "em", rootFontSize)}px`
+        : `${convert(value, "rem", rootFontSize)}px`;
 
       textEditor
         .edit((editBuilder) => {
@@ -54,7 +54,7 @@ const pxToEm = (...args: any[]): any => {
 
           if (!disableSuccessNotification) {
             return infoMessage(
-              `Successfuly perform conversion with root pixel of ${rootPixel}`
+              `Successfuly perform conversion with root font size of ${rootFontSize}`
             );
           }
         });
@@ -74,8 +74,8 @@ const pxToEm = (...args: any[]): any => {
     }
 
     const converted = value.endsWith("em")
-      ? `${convert(value, "em", rootPixel)}px`
-      : `${convert(value, "rem", rootPixel)}px`;
+      ? `${convert(value, "em", rootFontSize)}px`
+      : `${convert(value, "rem", rootFontSize)}px`;
 
     return [{ range, value, converted }];
   });
@@ -94,13 +94,13 @@ const pxToEm = (...args: any[]): any => {
 
       if (problemCount) {
         return warningMessage(
-          `Successfuly perform conversion with root pixel of ${rootPixel}, but there are ${problemCount} problems encountered.`
+          `Successfuly perform conversion with root font size of ${rootFontSize}, but there are ${problemCount} problems encountered.`
         );
       }
 
       if (!disableSuccessNotification) {
         return infoMessage(
-          `Successfuly perform conversion with root pixel of ${rootPixel}`
+          `Successfuly perform conversion with root font size of ${rootFontSize}`
         );
       }
     });
