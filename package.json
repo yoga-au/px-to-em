@@ -46,22 +46,24 @@
     "commands": [
       {
         "command": "px-to-em.pxToEm",
-        "title": "Convert PX to EM Value",
-        "shortTitle": "PX to EM"
+        "title": "Convert PX to EM",
+        "shortTitle": "PX to EM",
+        "category": "PX to EM"
       },
       {
         "command": "px-to-em.emToPx",
-        "title": "Convert EM/REM to PX Value",
-        "shortTitle": "EM/REM to PX"
+        "title": "Convert EM/REM to PX",
+        "shortTitle": "EM/REM to PX",
+        "category": "PX to EM"
       }
     ],
     "configuration": {
       "title": "PX to EM",
       "properties": {
-        "pxToEm.basePixel": {
+        "pxToEm.rootFontSize": {
           "type": "number",
           "default": 16,
-          "description": "Base pixel/root pixel to be used as reference for EM/REM conversion. Most browser have it at 16px as default value if you don't specifically setup the base/root px."
+          "description": "Root font size to be used as reference for conversion. Most browser have it at 16px as default value if you don't specifically setup the root font size in your css."
         },
         "pxToEm.disableSuccessNotification": {
           "type": "boolean",

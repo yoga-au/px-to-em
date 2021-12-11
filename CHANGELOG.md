@@ -21,3 +21,8 @@
 - Add new configuration for disable notification message when conversion are successfull
 - Update extension README file (added new extenstion setting and roadmap)
 - Source code refactor (moved some function to separate file)
+
+### 0.2.0
+
+- Add multi selection support.
+- Fix wording in extension, base pixel to root font size.

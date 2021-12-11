@@ -1,4 +1,5 @@
-import pxToEmFunc from "./pxToEmFunc";
-import emToPxFunc from "./emToPxFunc";
+// import pxToEm from "./pxToEm";
+import emToPx from "./emToPx";
+import pxToEm from "./pxToEm";
 
-export { pxToEmFunc, emToPxFunc };
+export { emToPx, pxToEm };

@@ -1,22 +1,15 @@
 import * as vscode from "vscode";
-import { pxToEmFunc, emToPxFunc } from "./commands/index";
+import { pxToEm, emToPx } from "./commands/index";
 
 // TODO:
 // - refactor callback function in registerCommand()
-// - handle multiple selection
+// -- refactor to use hooks (consideration)
 
 export function activate(context: vscode.ExtensionContext) {
-  // command list
-  const pxToEmCmd = "px-to-em.pxToEm";
-  const emToPxCmd = "px-to-em.emToPx";
-
-  // conversion from px to em
-  const pxToEm = vscode.commands.registerCommand(pxToEmCmd, () => pxToEmFunc());
-
-  // conversion em to px
-  const emToPx = vscode.commands.registerCommand(emToPxCmd, () => emToPxFunc());
-
-  context.subscriptions.push(pxToEm, emToPx);
+  context.subscriptions.push(
+    vscode.commands.registerCommand("px-to-em.pxToEm", () => pxToEm()),
+    vscode.commands.registerCommand("px-to-em.emToPx", () => emToPx())
+  );
 }
 
 export function deactivate() {}
