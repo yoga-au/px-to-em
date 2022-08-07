@@ -1,16 +1,7 @@
 import * as vscode from "vscode";
-import { convert } from "../utils/index";
+import { runConversion } from "../utils/index";
 
-// TODO: Working on refactoring em to px (follow px to em)
-// NOTE: buildRange utility function can be refactored to use map method internally
-
-const pxToEm = (...args: any[]): any => {
-  const textEditor = vscode.window.activeTextEditor;
-  const infoMessage = vscode.window.showInformationMessage;
-  const warningMessage = vscode.window.showWarningMessage;
-  const errorMessage = vscode.window.showErrorMessage;
-  let problemCount = 0;
-
+const emToPx = () => {
   const config = vscode.workspace.getConfiguration("pxToEm");
   const rootFontSize = config.get<number>("rootFontSize", 16);
   const disableSuccessNotification = config.get<boolean>(
@@ -18,92 +9,7 @@ const pxToEm = (...args: any[]): any => {
     true
   );
 
-  if (!textEditor) {
-    return errorMessage("No file is open");
-  }
-
-  if (textEditor.selections.length === 1) {
-    if (textEditor.selection.isEmpty) {
-      return errorMessage("No selection is detected");
-    }
-
-    // SECTION: Start of single selection feature code
-    if (textEditor.selection.isSingleLine) {
-      const range = new vscode.Range(
-        textEditor.selection.start,
-        textEditor.selection.end
-      );
-      const value = textEditor.document.getText(range);
-
-      if (!value.endsWith("em") && !value.endsWith("rem")) {
-        return errorMessage("The selection is not detected as em/rem value");
-      }
-
-      const convertResult = value.endsWith("em")
-        ? `${convert(value, "em", rootFontSize)}px`
-        : `${convert(value, "rem", rootFontSize)}px`;
-
-      textEditor
-        .edit((editBuilder) => {
-          editBuilder.replace(range, convertResult);
-        })
-        .then((resolved) => {
-          if (resolved === false) {
-            return errorMessage("Error: something went wrong");
-          }
-
-          if (!disableSuccessNotification) {
-            return infoMessage(
-              `Successfuly perform conversion with root font size of ${rootFontSize}`
-            );
-          }
-        });
-
-      return;
-    }
-  }
-
-  // SECTION: Start of multi selection feature code
-  const convertResult = textEditor.selections.flatMap((item) => {
-    const range = new vscode.Range(item.start, item.end);
-    const value = textEditor.document.getText(range);
-
-    if ((!value.endsWith("em") && !value.endsWith("rem")) || !value) {
-      problemCount += 1;
-      return [];
-    }
-
-    const converted = value.endsWith("em")
-      ? `${convert(value, "em", rootFontSize)}px`
-      : `${convert(value, "rem", rootFontSize)}px`;
-
-    return [{ range, value, converted }];
-  });
-
-  // REMINDER: put loop inside textEditor edit method to perform multiple replace method
-  textEditor
-    .edit((editBuilder) => {
-      for (const item of convertResult) {
-        editBuilder.replace(item.range, item.converted);
-      }
-    })
-    .then((resolved) => {
-      if (resolved === false) {
-        return errorMessage("Error: something went wrong");
-      }
-
-      if (problemCount) {
-        return warningMessage(
-          `Successfuly perform conversion with root font size of ${rootFontSize}, but there are ${problemCount} problems encountered.`
-        );
-      }
-
-      if (!disableSuccessNotification) {
-        return infoMessage(
-          `Successfuly perform conversion with root font size of ${rootFontSize}`
-        );
-      }
-    });
+  runConversion(rootFontSize, disableSuccessNotification, "em", "px");
 };
 
-export default pxToEm;
+export default emToPx;

@@ -1,4 +1,3 @@
-// import * as vscode from "vscode";
 import { UnitType } from "../types/index";
 
 const convert = (value: string, unit: UnitType, basePixel: number) => {
