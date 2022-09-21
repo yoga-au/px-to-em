@@ -40,7 +40,8 @@
   "activationEvents": [
     "onCommand:px-to-em.pxToEm",
     "onCommand:px-to-em.emToPx",
-    "onCommand:px-to-em.devCommand"
+    "onCommand:px-to-em.pxToRem",
+    "onCommand:px-to-em.remToPx"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -53,13 +54,20 @@
       },
       {
         "command": "px-to-em.emToPx",
-        "title": "Convert EM/REM to PX",
-        "shortTitle": "EM/REM to PX",
+        "title": "Convert EM to PX",
+        "shortTitle": "EM to PX",
         "category": "PX to EM"
       },
       {
-        "command": "px-to-em.devCommand",
-        "title": "Dev Command",
+        "command": "px-to-em.pxToRem",
+        "title": "Convert PX to REM",
+        "shortTitle": "PX to REM",
+        "category": "PX to EM"
+      },
+      {
+        "command": "px-to-em.remToPx",
+        "title": "Convert REM to PX",
+        "shortTitle": "REM to PX",
         "category": "PX to EM"
       }
     ],
