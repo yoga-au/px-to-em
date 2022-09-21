@@ -41,7 +41,8 @@
     "onCommand:px-to-em.pxToEm",
     "onCommand:px-to-em.emToPx",
     "onCommand:px-to-em.pxToRem",
-    "onCommand:px-to-em.remToPx"
+    "onCommand:px-to-em.remToPx",
+    "onCommand:px-to-em.changeRootFont"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -68,6 +69,12 @@
         "command": "px-to-em.remToPx",
         "title": "Convert REM to PX",
         "shortTitle": "REM to PX",
+        "category": "PX to EM"
+      },
+      {
+        "command": "px-to-em.changeRootFont",
+        "title": "Change Root Font Size",
+        "shortTitle": "Change Root Font",
         "category": "PX to EM"
       }
     ],

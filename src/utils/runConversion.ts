@@ -1,4 +1,4 @@
-import * as vscode from "vscode";
+import { window } from "vscode";
 import { convert, buildRange } from "./index";
 import type { UnitType } from "../types/index";
 
@@ -7,9 +7,9 @@ const runConversion = (
   currUnit: UnitType,
   toUnit: UnitType
 ) => {
-  const textEditor = vscode.window.activeTextEditor;
-  const infoMessage = vscode.window.showInformationMessage;
-  const errorMessage = vscode.window.showErrorMessage;
+  const textEditor = window.activeTextEditor;
+  const infoMessage = window.showInformationMessage;
+  const errorMessage = window.showErrorMessage;
 
   if (!textEditor) {
     return errorMessage("No file is open");

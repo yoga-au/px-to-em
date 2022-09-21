@@ -1,8 +1,9 @@
-import * as vscode from "vscode";
+import { Range } from "vscode";
+import type { Selection } from "vscode";
 
-const buildRange = (selections: vscode.Selection[]) => {
+const buildRange = (selections: Selection[]) => {
   const rangeArr = selections.map((selection) => {
-    const range = new vscode.Range(selection.start, selection.end);
+    const range = new Range(selection.start, selection.end);
 
     return range;
   });
