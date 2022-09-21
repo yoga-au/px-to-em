@@ -4,7 +4,6 @@ import type { UnitType } from "../types/index";
 
 const runConversion = (
   rootFont: number,
-  succNotif: boolean,
   currUnit: UnitType,
   toUnit: UnitType
 ) => {
@@ -61,11 +60,9 @@ const runConversion = (
         );
       }
 
-      if (!succNotif) {
-        return infoMessage(
-          `Successfuly perform conversion with root font size of ${rootFont}`
-        );
-      }
+      return infoMessage(
+        `Successfuly perform conversion with root font size of ${rootFont}`
+      );
     });
 };
 
