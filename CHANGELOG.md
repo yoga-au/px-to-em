@@ -26,3 +26,9 @@
 
 - Add multi selection support.
 - Fix wording in extension, base pixel to root font size.
+
+### 0.4.0
+
+- Add command for rem conversion
+- Add command to change config of root font size
+- Remove config of disable success notification

@@ -1,11 +1,11 @@
 import { workspace } from "vscode";
 import { runConversion } from "../utils/index";
 
-const emToPx = () => {
+const remToPx = () => {
   const config = workspace.getConfiguration("pxToEm");
   const rootFontSize = config.get<number>("rootFontSize", 16);
 
-  runConversion(rootFontSize, "em", "px");
+  runConversion(rootFontSize, "rem", "px");
 };
 
-export default emToPx;
+export default remToPx;
