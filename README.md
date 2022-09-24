@@ -15,16 +15,15 @@ By defaault, the conversion is using a root font size of `16`. You can change it
 This extension contributes the following settings:
 
 - `pxToEm.rootFontSize`: Root font size to be used as reference for conversion. Most browser have it at 16px as default value if you don't specifically setup the root font size in your css.
-- `pxToEm.disableSuccessNotification`: Disable notification when conversion are successfull.
 
 ## Known Issues
 
-- When selecting a value in shorthand property, it will replace all the value with converted result from the left.
+- When selecting multiple line of code, the extension only convert the first line of selection
 
 ## Roadmap
 
-:white_check_mark: Multi selection support.
-:white_large_square: Shorthand property support.
+:white_large_square: Add conversion function to code actions
+:white_large_square: Doing conversion on entire file
 
 ## Release Notes
 
@@ -50,3 +49,9 @@ Initial release of PX to EM.
 
 - Add multi selection support.
 - Fix wording in extension, base pixel to root font size.
+
+### 0.4.0
+
+- Add command for rem conversion.
+- Add command to change config of root font size.
+- Remove config of disable success notification.
