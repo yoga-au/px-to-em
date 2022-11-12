@@ -24,22 +24,25 @@ const runConversion = (
   const convertResult = rangeArr.flatMap((range) => {
     const value = textEditor.document.getText(range);
     const valueArr = value.split(" ");
+    const isSomeValueCorrect = valueArr.some((value) => {
+      return value.endsWith(currUnit);
+    });
 
-    if (!value.endsWith(currUnit)) {
-      return [];
+    if (isSomeValueCorrect) {
+      const convertedValue = valueArr
+        .map((string) => {
+          if (!string.endsWith(currUnit)) {
+            return string;
+          }
+
+          return `${convert(string, currUnit, rootFont)}${toUnit}`;
+        })
+        .join(" ");
+
+      return { range, value, converted: convertedValue };
     }
 
-    const convertedValue = valueArr
-      .map((string) => {
-        if (!string.endsWith(currUnit)) {
-          return string;
-        }
-
-        return `${convert(string, currUnit, rootFont)}${toUnit}`;
-      })
-      .join(" ");
-
-    return { range, value, converted: convertedValue };
+    return [];
   });
 
   if (!convertResult.length) {
