@@ -55,3 +55,7 @@ Initial release of PX to EM.
 - Add command for rem conversion.
 - Add command to change config of root font size.
 - Remove config of disable success notification.
+
+### 0.4.1
+
+- Fix bug when selection have zero value, it never convert even though there's correct value in the selection
