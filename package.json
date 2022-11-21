@@ -42,7 +42,8 @@
     "onCommand:px-to-em.emToPx",
     "onCommand:px-to-em.pxToRem",
     "onCommand:px-to-em.remToPx",
-    "onCommand:px-to-em.changeRootFont"
+    "onCommand:px-to-em.changeRootFont",
+    "onLanguage:css"
   ],
   "main": "./out/extension.js",
   "contributes": {
