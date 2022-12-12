@@ -1,15 +1,6 @@
 import { CodeActionKind, CodeAction } from "vscode";
 
-import type {
-  CancellationToken,
-  CodeActionContext,
-  CodeActionProvider,
-  Command,
-  ProviderResult,
-  Range,
-  Selection,
-  TextDocument,
-} from "vscode";
+import type { CodeActionProvider, Command, ProviderResult } from "vscode";
 
 interface CreateCommandParams {
   title: string;
@@ -40,12 +31,7 @@ export class ConvertPxEm implements CodeActionProvider {
     CodeActionKind.RefactorRewrite,
   ];
 
-  public provideCodeActions(
-    document: TextDocument,
-    range: Range | Selection,
-    context: CodeActionContext,
-    token: CancellationToken
-  ): ProviderResult<(CodeAction | Command)[]> {
+  public provideCodeActions(): ProviderResult<(CodeAction | Command)[]> {
     const pxToEmCommand = this.createCommand({
       title: "Convert PX to EM",
       commandName: this.pxEmCmd,

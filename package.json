@@ -7,9 +7,9 @@
   },
   "displayName": "PX to EM",
   "description": "Quickly convert your css pixel value to em value or em/rem to pixel with a simple command.",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "engines": {
-    "vscode": "^1.59.0"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
@@ -86,6 +86,16 @@
           "type": "number",
           "default": 16,
           "description": "Root font size to be used as reference for conversion. Most browser have it at 16px as default value if you don't specifically setup the root font size in your css."
+        },
+        "pxToEm.codeAction.enabled": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "css"
+          ],
+          "description": "Description for code action config"
         }
       }
     }

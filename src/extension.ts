@@ -1,4 +1,4 @@
-import { commands, languages } from "vscode";
+import { commands, languages, workspace, window } from "vscode";
 import {
   pxToEm,
   emToPx,
@@ -8,12 +8,36 @@ import {
 } from "./commands/index";
 import { ConvertPxEm } from "./actions/convertPxEm";
 
-import type { ExtensionContext } from "vscode";
+import type { ExtensionContext, ConfigurationChangeEvent } from "vscode";
 
-// TODO: create config for document selector in code actions provider
-// TODO: don't trigger code action when selection not exist
+const showRestartMessage = async ({
+  affectsConfiguration,
+}: ConfigurationChangeEvent) => {
+  if (affectsConfiguration("pxToEm.codeAction.enabled")) {
+    window
+      .showWarningMessage(
+        "Reloading VS Code is required to apply changes",
+        "Reload",
+        "Ignore"
+      )
+      .then((action) => {
+        if (action && action === "Reload") {
+          commands.executeCommand("workbench.action.reloadWindow");
+        }
+      });
+  }
+};
+
+// ! PROBLEM: the code actions only activate when css file is selected
+// TODO: figure out how to activate code actions dynamically/in all files
 
 export function activate(context: ExtensionContext) {
+  const codeActionConfig = workspace
+    .getConfiguration("pxToEm")
+    .get<string[]>("codeAction.enabled", ["css"]);
+
+  workspace.onDidChangeConfiguration((e) => showRestartMessage(e));
+
   context.subscriptions.push(
     commands.registerCommand("px-to-em.pxToEm", () => pxToEm()),
     commands.registerCommand("px-to-em.emToPx", () => emToPx()),
@@ -21,7 +45,7 @@ export function activate(context: ExtensionContext) {
     commands.registerCommand("px-to-em.remToPx", () => remToPx()),
     commands.registerCommand("px-to-em.changeRootFont", () => changeRootFont()),
     languages.registerCodeActionsProvider(
-      ["css"],
+      codeActionConfig,
       new ConvertPxEm(
         "px-to-em.pxToEm",
         "px-to-em.emToPx",
