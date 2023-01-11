@@ -5,19 +5,34 @@ const changeRootFont = async () => {
   const errorMessage = window.showErrorMessage;
   const inputBox = window.showInputBox;
 
-  try {
-    const newRootFont = await inputBox({
-      ignoreFocusOut: true,
-      prompt: "Root font size used for conversion (in px)",
-      title: "Change Root Font",
-      validateInput: (value) => {
-        const toInt = parseInt(value);
+  const getInputValue = async () => {
+    try {
+      const inputtedValue = await inputBox({
+        ignoreFocusOut: true,
+        prompt: "Root font size used for conversion (in px)",
+        title: "Change Root Font",
+        validateInput: (value) => {
+          const toInt = parseInt(value);
 
-        if (!toInt) {
-          return "Please insert a number";
-        }
-      },
-    });
+          if (!toInt) {
+            return "Please insert a number";
+          }
+        },
+      });
+
+      if (!inputtedValue) {
+        throw Error;
+      }
+
+      return parseInt(inputtedValue);
+    } catch (error) {
+      console.error(error);
+      errorMessage("Something went wrong when changing font size");
+    }
+  };
+
+  try {
+    const newRootFont = await getInputValue();
 
     workspace
       .getConfiguration("pxToEm")

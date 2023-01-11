@@ -7,7 +7,7 @@
   },
   "displayName": "PX to EM",
   "description": "Quickly convert your css pixel value to em value or em/rem to pixel with a simple command.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "engines": {
     "vscode": "^1.59.0"
   },

@@ -1,4 +1,4 @@
-import { commands, ExtensionContext } from "vscode";
+import { commands } from "vscode";
 import {
   pxToEm,
   emToPx,
@@ -6,6 +6,7 @@ import {
   remToPx,
   changeRootFont,
 } from "./commands/index";
+import type { ExtensionContext } from "vscode";
 
 export function activate(context: ExtensionContext) {
   context.subscriptions.push(
